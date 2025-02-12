@@ -1,38 +1,33 @@
 import { Controller, Delete, Get, Param, Post, Put, Redirect, Req } from "@nestjs/common";
 import { Request } from "express";
+import { UserService } from "./user.service";
 
 
 @Controller('user')
 export class UserController{
-    constructor(){
+    constructor(public userService: UserService){
         console.log("this is the user controller")
     }
     // add a user
     @Post('/')
     addUser():object{
-        return {status:200, message:'user added'}
+        return this.userService.addUser();
     }
     // get all user
     @Get('/')
     getUser():object{
-        return {status:200, message:'user getting'}
+        return this.userService.getUser()
     }
     // delete a user
     @Delete('/')
     @Redirect('http://localhost:3000/user', 301) // checking the redirecting 
     deleteUser():object{
-        return {message: "user deleted"}
+        return this.userService.deleteUser()
     }
     
-    // update user
-    @Put('/user')
-    updateUser():string{
-        return 'user updated'
-    }
 
     @Get('/:id')
-    getUserById(@Param() params): object{
-        console.log(params?.id)
-        return {status: 200, message:`this is the id ${params?.id}`}
+    getUserById(@Param() params: any): object{
+        return this.userService.getUserById(parseInt(params.id) as number);
     }
 }
