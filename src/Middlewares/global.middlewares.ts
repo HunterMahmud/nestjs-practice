@@ -14,7 +14,7 @@ export function NumberOfRequest(req: Request, _res: Response, next: NextFunction
   let count = 0;
   try {
     const data = fs.readFileSync(filePath, 'utf8');
-    console.log("data is : ", data)
+    // console.log("data is : ", data)
     count = parseInt(data, 10) || 0;
     // Increment the count
     count++;
@@ -33,6 +33,6 @@ export function NumberOfRequest(req: Request, _res: Response, next: NextFunction
   // Attach the count to the request object if needed
   req['requestCount'] = count;
 
-  console.log(`Number of Request on server: ${count}`)
+//   console.log(`Number of Request on server: ${count}`)
   next();
 }
