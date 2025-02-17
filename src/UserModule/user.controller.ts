@@ -5,9 +5,12 @@ import { UserService } from "./user.service";
 
 @Controller('user')
 export class UserController{
-    constructor(public userService: UserService){
-        console.log("this is the user controller")
+    // readonly userService: UserService; // this is automatically happening by declaring with "private readonly" in the constructor function
+    constructor(private readonly userService: UserService){
+        // console.log("user controller")
+        // this.userService = new UserService() // it is automatically initialize by the nestjs
     }
+    
     // add a user
     @Post('/')
     addUser():object{
@@ -27,7 +30,7 @@ export class UserController{
     
 
     @Get('/:id')
-    getUserById(@Param() params: any): object{
-        return this.userService.getUserById(parseInt(params.id) as number);
+    getUserById(@Param("id") id: string): object{
+        return this.userService.getUserById(parseInt(id) as number);
     }
 }
