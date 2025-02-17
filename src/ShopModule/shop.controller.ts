@@ -1,9 +1,10 @@
-import { Controller, Delete, Get, HttpCode, Param, Patch, Post, Req, Res, ParseIntPipe, HttpStatus, Body } from "@nestjs/common";
+import { Controller, Delete, Get, HttpCode, Param, Patch, Post, Req, Res, ParseIntPipe, HttpStatus, Body, ValidationPipe } from "@nestjs/common";
 import { ShopService } from './shop.service';
 import { IResponse } from './../Interface/response.d';
 import { Request, Response } from "express";
 import { shopDto } from './dtos/shop.dto';
 import { ShopItemPipe } from './pipes/shopItem.pipes';
+import { CreateShopItemDto } from './dtos/create-shop-item.dto';
 
 /**
  * mainly the controllers contains the function that takes the req and res and process according to it.
@@ -25,14 +26,14 @@ export class ShopController{
 
     // update shop item
     @Patch('/:shopId')
-    updateShopItem(@Param('shopId', ParseIntPipe) shopId: number): IResponse{ // here i use the Pipe to validate the incoming data format
+    updateShopItem(@Param('shopId', ParseIntPipe) shopId: number): IResponse{ // here i use the build in Pipe to validate the incoming data format
         console.log(typeof shopId)
         return this.shopService.updateShopItem(shopId);
     }
 
      // delete shop item
      @Delete('/:shopId')
-     deleteShopItem(@Param('shopId', new ParseIntPipe({errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY})) shopId: number): IResponse{ // in this line i use custom define status code for the ParseIntPipe
+     deleteShopItem(@Param('shopId', new ParseIntPipe({errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY})) shopId: number): IResponse{ // in this line i use custom define status code for the build in ParseIntPipe
          return this.shopService.deleteShopItem(shopId);
      }
  
@@ -43,7 +44,14 @@ export class ShopController{
         return this.shopService.addShopItem();
     }
 
-   
+    // add shop item another route -- best way to custom validate
+    // in this route with buildin validation but with class-validator and class-transformer
+    // just have to add the class types dto and new ValidationPipe() then it will automatically handle it
+    // related-video: https://www.youtube.com/watch?v=ZR5WoojlOTA&list=PLVo1k_VwkKMyxkNyMFTtcMcfNHA3xKjZ0&index=9&ab_channel=Notezz
+    @Post('/add')
+    addNewShopItem(@Body(new ValidationPipe()) shopItem: CreateShopItemDto): IResponse{
+        return this.shopService.addShopItem();
+    }
     
 
     // find shop by id
