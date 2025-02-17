@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, HttpCode, Param, Patch, Post, Req, Res, ParseIntPipe } from "@nestjs/common";
+import { Controller, Delete, Get, HttpCode, Param, Patch, Post, Req, Res, ParseIntPipe, HttpStatus } from "@nestjs/common";
 import { ShopService } from './shop.service';
 import { IResponse } from './../Interface/response.d';
 import { Request, Response } from "express";
@@ -29,8 +29,8 @@ export class ShopController{
 
     // delete shop item
     @Delete('/:shopId')
-    deleteShopItem(): IResponse{
-        return this.shopService.deleteShopItem();
+    deleteShopItem(@Param('shopId', new ParseIntPipe({errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY})) shopId: number): IResponse{ // in this line i use custom define status code for the ParseIntPipe
+        return this.shopService.deleteShopItem(shopId);
     }
 
     // update shop item

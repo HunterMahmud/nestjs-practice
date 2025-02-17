@@ -17,8 +17,8 @@ export class ShopService{
     }
 
     // delete shop item
-    deleteShopItem(): IResponse{
-        return {success: true, message: "this will delete shop item", data: []}
+    deleteShopItem(id: number): IResponse{
+        return {success: true, message: `this will delete shop item: ${id}`, data: []}
     }
 
     // update shop item
