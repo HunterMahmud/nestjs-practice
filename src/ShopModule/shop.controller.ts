@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, HttpCode, Param, Patch, Post, Req, Res } from "@nestjs/common";
+import { Controller, Delete, Get, HttpCode, Param, Patch, Post, Req, Res, ParseIntPipe } from "@nestjs/common";
 import { ShopService } from './shop.service';
 import { IResponse } from './../Interface/response.d';
 import { Request, Response } from "express";
@@ -35,8 +35,9 @@ export class ShopController{
 
     // update shop item
     @Patch('/:shopId')
-    updateShopItem(): IResponse{
-        return this.shopService.updateShopItem();
+    updateShopItem(@Param('shopId', ParseIntPipe) shopId: number): IResponse{ // here i use the Pipe to validate the incoming data format
+        console.log(typeof shopId)
+        return this.shopService.updateShopItem(shopId);
     }
 
     // find shop by id

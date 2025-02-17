@@ -22,8 +22,8 @@ export class ShopService{
     }
 
     // update shop item
-    updateShopItem(): IResponse{
-        return {success: true, message: "this will update shop item", data: []}
+    updateShopItem(id: number): IResponse{
+        return {success: true, message: `this will update shop item: ${id}`, data: []}
     }
 
     // find shop by id

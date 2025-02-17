@@ -5,13 +5,14 @@ import { Response, Request, NextFunction } from 'express';
 export class ShopMiddleware implements NestMiddleware {
     use(req: Request, _res:Response, next:NextFunction){
         console.log("shop middlewares")
+        const protocol =req.protocol; // http or https
         const host = req.get("host");
         const url = req.originalUrl;
         const method = req.method;
         const date = new Date();
         const ip = req.ip;
 
-        console.log(`IP:${ip} ${req.protocol}://${host}${url} METHOD: ${method} ${date.toTimeString()}`) // loggin with the req with time date host method and ip address
+        console.log(`IP:${ip} ${protocol}://${host}${url} METHOD: ${method} ${date.toTimeString()}`) // loggin with the req with time date host method and ip address
         next()
     }
 }
