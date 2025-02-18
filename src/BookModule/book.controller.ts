@@ -1,5 +1,7 @@
-import { Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, UseGuards, UseInterceptors, Req, Res } from '@nestjs/common';
 import { BookGuard } from './book.guard';
+import { BookInterceptor } from './book.interceptor';
+import { Request, Response } from 'express';
 
 @Controller('book')
 export class BookController {
@@ -8,13 +10,17 @@ export class BookController {
   }
 
   @Get('/getBook')
-  @UseGuards(new BookGuard())
+  @UseInterceptors(BookInterceptor)
+  @UseGuards(BookGuard)
   getBook(): object {
     return { data: 'all books returned' };
   }
 
   @Post('/addBook')
-  addBook(): object {
-    return {data: 'book added'}
+  @UseInterceptors(BookInterceptor)
+  @UseGuards(BookGuard)
+  addBook(@Req() req: Request, @Res() res: Response): any {
+    console.log("the body data is: ",req?.body)
+    res.json(req.body)
   }
 }
