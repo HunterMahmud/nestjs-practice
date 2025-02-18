@@ -6,6 +6,7 @@ import { shopDto } from './dtos/shop.dto';
 import { ShopItemPipe } from './pipes/shopItem.pipes';
 import { CreateShopItemDto } from './dtos/create-shop-item.dto';
 import { HttpErrorByCode } from "@nestjs/common/utils/http-error-by-code.util";
+import { CustomException } from "./shop.exception";
 
 /**
  * mainly the controllers contains the function that takes the req and res and process according to it.
@@ -31,19 +32,22 @@ export class ShopController{
     findShopItemByShopId(){
         console.log("the exception route hit")
         // throw new BadRequestException()  // this is throw the default message with status code 400
-        throw new BadRequestException({ // full customization by developer
-            status: 400,
-            error:"not found",
-            objectOrError: {
-                message: "you can message here anything"
-            },
-            descriptionOrOptions:"nothing",
-            // statusCode:HttpErrorByCode[400],
-            statusCode: HttpStatus.NOT_FOUND
+        // throw new BadRequestException({ // full customization by developer
+        //     status: 400,
+        //     error:"not found",
+        //     objectOrError: {
+        //         message: "you can message here anything"
+        //     },
+        //     descriptionOrOptions:"nothing",
+        //     // statusCode:HttpErrorByCode[400],
+        //     statusCode: HttpStatus.NOT_FOUND
 
-        })
+        // })
 
         // throw new HttpException("unauthorize access", HttpStatus.UNAUTHORIZED) // a little customization with httpexception
+
+
+        throw new CustomException(); // its user define custom exception inside the shop.exception.ts
     }
 
     // update shop item
