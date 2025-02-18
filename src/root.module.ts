@@ -5,13 +5,15 @@ import { OrderModule } from './OrderModule/orders.module';
 import { CartModule } from './CartModule/cart.module';
 import { HistoryModule } from './HistoryModule/history.module';
 import { ShopModule } from './ShopModule/shop.module';
+import { BookModule } from './BookModule/book.module';
 
 @Module({
   imports: [
-    // UserModule,  ChatModule,  OrderModule,
-    CartModule,
-    HistoryModule,
+  // UserModule,  ChatModule,  OrderModule,
+    // CartModule,
+    // HistoryModule,
     ShopModule,
+    BookModule
   ],
   controllers: [],
   providers: [],
