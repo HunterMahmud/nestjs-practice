@@ -1,10 +1,11 @@
-import { Controller, Delete, Get, HttpCode, Param, Patch, Post, Req, Res, ParseIntPipe, HttpStatus, Body, ValidationPipe } from "@nestjs/common";
+import { Controller, Delete, Get, HttpCode, Param, Patch, Post, Req, Res, ParseIntPipe, HttpStatus, Body, ValidationPipe, BadRequestException, HttpException } from "@nestjs/common";
 import { ShopService } from './shop.service';
 import { IResponse } from './../Interface/response.d';
 import { Request, Response } from "express";
 import { shopDto } from './dtos/shop.dto';
 import { ShopItemPipe } from './pipes/shopItem.pipes';
 import { CreateShopItemDto } from './dtos/create-shop-item.dto';
+import { HttpErrorByCode } from "@nestjs/common/utils/http-error-by-code.util";
 
 /**
  * mainly the controllers contains the function that takes the req and res and process according to it.
@@ -22,6 +23,27 @@ export class ShopController{
     // @HttpCode(200)
     getShopItem(): IResponse{
         return this.shopService.getShopItem();
+    }
+
+    // nestjs buildin exception and customization of it
+    // find the shop by id
+    @Get('/getException')
+    findShopItemByShopId(){
+        console.log("the exception route hit")
+        // throw new BadRequestException()  // this is throw the default message with status code 400
+        throw new BadRequestException({ // full customization by developer
+            status: 400,
+            error:"not found",
+            objectOrError: {
+                message: "you can message here anything"
+            },
+            descriptionOrOptions:"nothing",
+            // statusCode:HttpErrorByCode[400],
+            statusCode: HttpStatus.NOT_FOUND
+
+        })
+
+        // throw new HttpException("unauthorize access", HttpStatus.UNAUTHORIZED) // a little customization with httpexception
     }
 
     // update shop item
@@ -59,4 +81,6 @@ export class ShopController{
     findShopItemById(@Req() req: Request, @Res() res: Response):IResponse | void{
         return this.shopService.findShopItemById(parseInt(req?.params?.id) as number, res);
     }
+
+    
 }
