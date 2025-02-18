@@ -19,8 +19,9 @@ export class BookController {
   @Post('/addBook')
   @UseInterceptors(BookInterceptor)
   @UseGuards(BookGuard)
-  addBook(@Req() req: Request, @Res() res: Response): any {
+  addBook(@Req() req: Request): any {//, @Res() res: Response --> we can't use express res when using interceptor
     console.log("the body data is: ",req?.body)
-    res.json(req.body)
+    // res.send(req.body)
+    return req.body;
   }
 }
