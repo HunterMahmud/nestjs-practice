@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, HttpCode, Param, Patch, Post, Req, Res, ParseIntPipe, HttpStatus, Body, ValidationPipe, BadRequestException, HttpException } from "@nestjs/common";
+import { Controller, Delete, Get, HttpCode, Param, Patch, Post, Req, Res, ParseIntPipe, HttpStatus, Body, ValidationPipe, BadRequestException, HttpException, UseFilters } from "@nestjs/common";
 import { ShopService } from './shop.service';
 import { IResponse } from './../Interface/response.d';
 import { Request, Response } from "express";
@@ -7,6 +7,7 @@ import { ShopItemPipe } from './pipes/shopItem.pipes';
 import { CreateShopItemDto } from './dtos/create-shop-item.dto';
 import { HttpErrorByCode } from "@nestjs/common/utils/http-error-by-code.util";
 import { CustomException } from "./shop.exception";
+import { CustomExceptionFilter } from "./shop.exception.filter";
 
 /**
  * mainly the controllers contains the function that takes the req and res and process according to it.
@@ -29,6 +30,7 @@ export class ShopController{
     // nestjs buildin exception and customization of it
     // find the shop by id
     @Get('/getException')
+    @UseFilters(CustomExceptionFilter) // when you have custom excetion filter
     findShopItemByShopId(){
         console.log("the exception route hit")
         // throw new BadRequestException()  // this is throw the default message with status code 400
@@ -47,7 +49,8 @@ export class ShopController{
         // throw new HttpException("unauthorize access", HttpStatus.UNAUTHORIZED) // a little customization with httpexception
 
 
-        throw new CustomException(); // its user define custom exception inside the shop.exception.ts
+        // throw new CustomException(); // its user define custom exception inside the shop.exception.ts
+        throw new BadRequestException()
     }
 
     // update shop item
