@@ -8,7 +8,7 @@ import { NumberOfRequest } from './Middlewares/global.middlewares';
 async function bootstrap() {
   const app = await NestFactory.create(RootModule);
   /***
-   * setting up the global middlware
+   * setting up the global middlware for counting the number of request
    */
 
   app.use(NumberOfRequest);

@@ -6,14 +6,20 @@ import { CartModule } from './CartModule/cart.module';
 import { HistoryModule } from './HistoryModule/history.module';
 import { ShopModule } from './ShopModule/shop.module';
 import { BookModule } from './BookModule/book.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { appDataSource } from './config/db.config';
+import { UsersmoduleModule } from './usersmodule/usersmodule.module';
 
 @Module({
   imports: [
-  // UserModule,  ChatModule,  OrderModule,
+// UserModule,  ChatModule,  OrderModule,
     // CartModule,
     // HistoryModule,
+    TypeOrmModule.forRoot(appDataSource.options),
     ShopModule,
-    BookModule
+    BookModule,
+    UserModule,
+    UsersmoduleModule
   ],
   controllers: [],
   providers: [],
