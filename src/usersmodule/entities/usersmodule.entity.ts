@@ -2,19 +2,21 @@ import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateCol
 
 @Entity("User")
 export class Usersmodule {
+    
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({nullable: true})
     firstName: string;
 
-    @Column()
+    
+    @Column({nullable: true})
     lastName: string;
 
-    @Column({nullable: false})
+    @Column({nullable: false,unique: true})
     email: string;
 
-    @Column()
+    @Column({nullable: true})
     age: number;
 
     @CreateDateColumn({type: 'timestamp', default: ()=>'CURRENT_TIMESTAMP'})
